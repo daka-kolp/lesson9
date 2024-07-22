@@ -1,27 +1,25 @@
 package com.example.lesson9
 
-import android.app.Activity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
-import com.example.lesson9.mvp.PresenterImpl
-import com.example.lesson9.mvp.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import com.example.lesson9.mvvm.ViewModelImpl
 
-class MainActivity : Activity(), View {
-    private val presenter = PresenterImpl()
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_layout)
-        presenter.setView(this)
+        val textView = findViewById<TextView>(R.id.text)
+        val vm: ViewModelImpl = ViewModelProvider(this)[ViewModelImpl::class.java]
+        vm.valueToUpdate.observe(this) {
+            textView.text = it.toString()
+        }
         val button = findViewById<Button>(R.id.button)
         button.setOnClickListener {
-            presenter.addOneToValue()
+            vm.addOneToValue()
         }
-    }
-
-    override fun updateValue(value: Int) {
-        val text = findViewById<TextView>(R.id.text)
-        text.text = value.toString()
     }
 }

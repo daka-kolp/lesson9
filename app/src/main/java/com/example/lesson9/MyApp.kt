@@ -6,8 +6,6 @@ import android.content.SharedPreferences
 
 class MyApp : Application() {
     private lateinit var sharedPrefs: SharedPreferences
-    private val valueKey: String = "valueKey"
-    private var value: Int = 0
 
     companion object {
         private lateinit var instance: MyApp
@@ -18,12 +16,7 @@ class MyApp : Application() {
         super.onCreate()
         instance = this
         sharedPrefs = getSharedPreferences("My SP", Context.MODE_PRIVATE)
-        value = sharedPrefs.getInt(valueKey, 0)
     }
 
-    fun getValue() = value.toString()
-
-    fun addOne() {
-        sharedPrefs.edit().putInt(valueKey, value++).apply()
-    }
+    fun getSharedPreferences() = sharedPrefs
 }
